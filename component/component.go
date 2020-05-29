@@ -8,6 +8,7 @@ import (
 // the super type for all region-wise compliance objects.
 type Compliance interface {
 	// can add compliance-specific functions here.
+	Calculate() (int64, error)
 	String() string
 }
 
@@ -70,11 +71,27 @@ func (s *SingaporeCompliance) String() string {
 	return fmt.Sprintf("CountryCode : %s, SomeInfo : %s, ValidForCPF : %t, SDL : %t, SHG : %t\n", s.CountryCode, s.SomeInfo, s.ValidForCPF, s.SDL, s.SHG)
 }
 
+func (s *SingaporeCompliance) Calculate() (int64, error) {
+	return 1, nil
+}
+
+func (s *SingaporeCompliance) SingaporeSpecificFunction() {
+	fmt.Println("Singapore specific use-case function")
+}
+
 type IndiaCompliance struct {
 	CountryCode       string `json:"countryCode" bson:"countryCode"`
 	IndiaSpecificInfo string `json:"indiaSpecificInfo" bson:"indiaSpecificInfo"`
 }
 
+func (i *IndiaCompliance) Calculate() (int64, error) {
+	return 50, nil
+}
+
 func (i *IndiaCompliance) String() string {
 	return fmt.Sprintf("CountryCode : %s, IndiaSpecificInfo : %s", i.CountryCode, i.IndiaSpecificInfo)
+}
+
+func (i *IndiaCompliance) IndiaSpecificFunction()  {
+	fmt.Println("India specific use-case function")
 }

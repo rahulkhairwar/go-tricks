@@ -3,6 +3,7 @@ package factoryPattern
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 )
 
@@ -33,6 +34,22 @@ func (c *componentServer) GetComponent(ctx context.Context, code string) (string
 	if err != nil {
 		return "", err
 	}
+
+	val, err := found.Compliance.Calculate()
+	if err != nil {
+		return "", err
+	}
+	fmt.Println("calculated compliance[SG/IN/...] : ", val)
+
+	switch found.CountryCode {
+	case "SG":
+		singaporeCompliance := found.Compliance.(*SingaporeCompliance)
+		singaporeCompliance.SingaporeSpecificFunction()
+	case "IN":
+		indiaCompliance := found.Compliance.(*IndiaCompliance)
+		indiaCompliance.IndiaSpecificFunction()
+	}
+
 	bytes, err := json.Marshal(found)
 	if err != nil {
 		return "", err
