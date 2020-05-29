@@ -17,7 +17,7 @@ func main() {
 	db := initMongoAndGetDB(ctx)
 	componentRepo := factoryPattern.NewComponentRepo(db.Collection("components"))
 	cs := factoryPattern.NewComponentServer(componentRepo)
-/*	sgComp := factoryPattern.Component{
+	sgComp := factoryPattern.Component{
 		Name: "Singapore Component",
 		Code: "SG-COMP-001",
 		CountryCode: "SG",
@@ -37,26 +37,25 @@ func main() {
 			CountryCode:       "IN",
 			IndiaSpecificInfo: "India specific info...",
 		},
-	}*/
-	// log.Println(cs, sgComp, inComp)
+	}
 
-/*	if err := cs.AddComponent(ctx, sgComp); err != nil {
+	if err := cs.AddComponent(ctx, sgComp); err != nil {
 		log.Println("[main] failed to add component due to : ", err)
 	}
 	if err := cs.AddComponent(ctx, inComp); err != nil {
 		log.Println("[main] failed to add component due to : ", err)
-	}*/
+	}
 
-	sgComp, err := cs.GetComponent(ctx, "SG-COMP-001")
+	sgc, err := cs.GetComponent(ctx, "SG-COMP-001")
 	if err != nil {
 		log.Println("[main] failed to get component due to : ", err)
 	}
-	inComp, err := cs.GetComponent(ctx, "IN-COMP-001")
+	inc, err := cs.GetComponent(ctx, "IN-COMP-001")
 	if err != nil {
 		log.Println("[main] failed to get component due to : ", err)
 	}
-	log.Println("SG Component : ", sgComp)
-	log.Println("IN Component : ", inComp)
+	log.Println("SG Component : ", sgc)
+	log.Println("IN Component : ", inc)
 }
 
 func initMongoAndGetDB(ctx context.Context) *mongo.Database {
